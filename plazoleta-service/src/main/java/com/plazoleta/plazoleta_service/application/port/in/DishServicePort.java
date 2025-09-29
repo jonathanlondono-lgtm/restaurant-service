@@ -6,3 +6,4 @@ import com.plazoleta.plazoleta_service.infraestructure.driver.rest.dto.DishCreat
 public interface DishServicePort {
     Plato createDish(DishCreateRequestDto dto, String bearerToken);
 }
+

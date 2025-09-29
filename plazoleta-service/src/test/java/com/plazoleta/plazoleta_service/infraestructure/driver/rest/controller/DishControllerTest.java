@@ -47,16 +47,16 @@ class DishControllerTest {
                 .content(objectMapper.writeValueAsString(dto)));
 
         result.andExpect(status().isCreated())
-              .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
     void createDish_invalidInput_returnsBadRequest() throws Exception {
         DishCreateRequestDto dto = new DishCreateRequestDto(); // campos vacíos
         mockMvc.perform(post("/api/dishes")
-                .contentType(MediaType.APPLICATION_JSON)
-                .header("Authorization", "Bearer validtoken")
-                .content(objectMapper.writeValueAsString(dto)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer validtoken")
+                        .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isBadRequest());
     }
 }
