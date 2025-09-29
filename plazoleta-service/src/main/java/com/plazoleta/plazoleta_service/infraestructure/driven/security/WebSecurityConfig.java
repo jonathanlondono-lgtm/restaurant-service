@@ -34,12 +34,11 @@ public class WebSecurityConfig {
         return new SecretKeySpec(jwtSecret.getBytes(), "HmacSHA256");
     }
 
-    // 🔓 Cadena de seguridad pública (sin JWT)
     @Bean
     @Order(1)
     public SecurityFilterChain publicSecurity(HttpSecurity http) throws Exception {
         http
-                .securityMatcher("/api/restaurants/**",
+                .securityMatcher(
                         "/swagger-ui.html",
                         "/swagger-ui/**",
                         "/v3/api-docs/**",
@@ -52,7 +51,6 @@ public class WebSecurityConfig {
         return http.build();
     }
 
-    // 🔐 Cadena de seguridad protegida (con JWT)
     @Bean
     @Order(2)
     public SecurityFilterChain secureSecurity(HttpSecurity http) throws Exception {
@@ -60,8 +58,8 @@ public class WebSecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/owners").hasAuthority("ADMINISTRADOR")
-                        .requestMatchers("/employees/register").hasAuthority("PROPIETARIO")
+                        .requestMatchers("/api/restaurants/**").hasAuthority("ADMINISTRADOR")
+                        .requestMatchers("/api/dishes").hasAuthority("PROPIETARIO")
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2

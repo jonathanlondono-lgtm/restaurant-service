@@ -9,4 +9,5 @@ public class RegexPatterns {
     public static final String PHONE = "^\\+?\\d{1,13}$";
     public static final String RESTAURANT_NAME_VALID = "^(?=.*[A-Za-z])[A-Za-z0-9 ]+$";
     public static final String ONLY_NUMBERS = "^\\d+$";
+    public static final String POSITIVE_INTEGER = "^[1-9]\\d*$";
 }
