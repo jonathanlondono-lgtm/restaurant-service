@@ -8,7 +8,6 @@ import com.plazoleta.plazoleta_service.application.port.out.UserClientPort;
 import com.plazoleta.plazoleta_service.domain.exception.InvalidNitException;
 import com.plazoleta.plazoleta_service.domain.exception.InvalidPhoneException;
 import com.plazoleta.plazoleta_service.domain.exception.InvalidRestaurantNameException;
-import com.plazoleta.plazoleta_service.domain.exception.OwnerNotAuthorizedException;
 import com.plazoleta.plazoleta_service.domain.exception.OwnerNotFoundException;
 import com.plazoleta.plazoleta_service.domain.model.Restaurante;
 import com.plazoleta.plazoleta_service.domain.model.RestauranteOwner;
