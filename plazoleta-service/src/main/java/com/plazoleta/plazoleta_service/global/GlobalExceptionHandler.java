@@ -65,6 +65,36 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(InvalidDishNameException.class)
+    public ResponseEntity<Object> handleInvalidDishName(InvalidDishNameException ex) {
+        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidDishDescriptionException.class)
+    public ResponseEntity<Object> handleInvalidDishDescription(InvalidDishDescriptionException ex) {
+        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidDishUrlException.class)
+    public ResponseEntity<Object> handleInvalidDishUrl(InvalidDishUrlException ex) {
+        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidDishCategoryException.class)
+    public ResponseEntity<Object> handleInvalidDishCategory(InvalidDishCategoryException ex) {
+        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidDishRestaurantIdException.class)
+    public ResponseEntity<Object> handleInvalidDishRestaurantId(InvalidDishRestaurantIdException ex) {
+        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(DishNotFoundForRestaurantException.class)
+    public ResponseEntity<Object> handleDishNotFoundForRestaurant(DishNotFoundForRestaurantException ex) {
+        return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
     private ResponseEntity<Object> buildResponse(HttpStatus status, String message) {
         Map<String, Object> body = new HashMap<>();
         body.put("timestamp", LocalDateTime.now());

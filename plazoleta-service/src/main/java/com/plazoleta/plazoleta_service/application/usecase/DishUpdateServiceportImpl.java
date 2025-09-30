@@ -40,18 +40,15 @@ public class DishUpdateServiceportImpl implements DishUpdateServiceport {
         if (!ownerRestaurantQueryPort.isOwnerOfRestaurant(userId, request.getRestauranteId())) {
             throw new OwnerNotAuthorizedException(ExceptionMessages.NOT_ACCES);
         }
-        // Verificar que el plato existe y pertenece al restaurante
         Plato plato = platoQueryPort.findPlatoByIdAndRestauranteId(request.getPlatoId(), request.getRestauranteId());
         if (plato == null) {
             throw new IllegalArgumentException("Dish not found for this restaurant.");
         }
-        // Actualizar los campos permitidos
         plato.setPrecio(request.getPrecio());
         plato.setDescripcion(request.getDescripcion());
 
         platoCommandPort.updatePlato(plato);
 
-        // Mapear a DTO de salida
         return new DishUpdateResponseDto(
             plato.getId(),
             plato.getNombre(),

@@ -31,7 +31,6 @@ class RestaurantControllerTest {
     @Test
     void createRestaurant_success() throws Exception {
         RestaurantCreateRequestDto requestDto = new RestaurantCreateRequestDto();
-        // Puedes setear campos del DTO aquí si es necesario
         Restaurante restaurante = new Restaurante();
         Mockito.when(restaurantServicePort.createRestaurant(any(RestaurantCreateRequestDto.class), eq("Bearer token")))
                 .thenReturn(restaurante);
@@ -44,5 +43,4 @@ class RestaurantControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
-    // Puedes agregar más tests para casos de error, por ejemplo 400, 403, 404, etc.
 }

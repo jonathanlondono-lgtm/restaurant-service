@@ -33,35 +33,28 @@ public class RestaurantUseCase implements RestaurantServicePort {
 
     @Override
     public Restaurante createRestaurant(RestaurantCreateRequestDto request, String bearerToken) {
-        // Validate required fields
         if (request.getName() == null || request.getNit() == null || request.getAddress() == null ||
                 request.getPhone() == null || request.getUrlLogo() == null || request.getOwnerId() == null) {
             throw new IllegalArgumentException("All fields are required.");
         }
-        // Validate NIT
         if (!nitValidationService.isValid(request.getNit())) {
             throw new InvalidNitException(ExceptionMessages.INVALID_NIT);
         }
-        // Validate phone
         if (!phoneValidationService.isValid(request.getPhone())) {
             throw new InvalidPhoneException(ExceptionMessages.INVALID_PHONE);
         }
-        // Validate restaurant name
         if (!restaurantNameValidationService.isValid(request.getName())) {
             throw new InvalidRestaurantNameException(ExceptionMessages.INVALID_RESTAURANT_NAME);
         }
-        // Check if NIT already exists
         if (restaurantPersistencePort.existsByNit(request.getNit())) {
             throw new IllegalArgumentException("A restaurant with this NIT already exists.");
         }
 
-        // Validate owner role using getUserRoleById
         List<String> roles = userClientPort.getUserRoleById(request.getOwnerId(), bearerToken);
         if (!roles.contains("PROPIETARIO")) {
             throw new OwnerNotFoundException("Owner user does not exist or does not have OWNER role.");
         }
 
-        // Create restaurant
         Restaurante restaurante = new Restaurante();
         restaurante.setNombre(request.getName());
         restaurante.setNit(request.getNit());
@@ -71,7 +64,7 @@ public class RestaurantUseCase implements RestaurantServicePort {
         restaurante.setFechaCreacion(LocalDateTime.now());
         restaurante.setFechaActualizacion(LocalDateTime.now());
         Restaurante saved = restaurantPersistencePort.save(restaurante);
-        // Create owner relationship
+
         RestauranteOwner owner = new RestauranteOwner();
         owner.setRestauranteId(saved.getId());
         owner.setOwnerId(request.getOwnerId());

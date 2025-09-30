@@ -4,4 +4,3 @@ public interface OwnerRestaurantQueryPort {
     boolean isOwnerOfRestaurant(Long ownerId, Long restauranteId);
 }
 
-

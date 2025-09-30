@@ -39,5 +39,3 @@ public class DishController {
         return new ResponseEntity<>(plato, HttpStatus.CREATED);
     }
 }
-
-

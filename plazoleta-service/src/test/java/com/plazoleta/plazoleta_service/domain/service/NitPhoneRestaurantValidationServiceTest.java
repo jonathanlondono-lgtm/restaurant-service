@@ -17,7 +17,6 @@ class NitPhoneRestaurantValidationServiceTest {
         restaurantNameValidationService = new RestaurantNameValidationService();
     }
 
-    // NitValidationService tests
     @Test
     void testValidNit() {
         assertTrue(nitValidationService.isValid("123456789"));
@@ -33,7 +32,6 @@ class NitPhoneRestaurantValidationServiceTest {
         assertFalse(nitValidationService.isValid(null));
     }
 
-    // PhoneValidationService tests
     @Test
     void testValidPhoneWithPlus() {
         assertTrue(phoneValidationService.isValid("+573005698325"));
@@ -59,7 +57,6 @@ class NitPhoneRestaurantValidationServiceTest {
         assertFalse(phoneValidationService.isValid(null));
     }
 
-    // RestaurantNameValidationService tests
     @Test
     void testValidRestaurantNameLetters() {
         assertTrue(restaurantNameValidationService.isValid("Restaurante ABC"));
