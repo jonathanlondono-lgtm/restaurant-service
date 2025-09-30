@@ -45,7 +45,8 @@ public class WebSecurityConfig {
                         "/webjars/**",
                         "/actuator/health",
                         "/auth/login",
-                        "/api/owner/restaurants/{ownerId}")
+                        "/api/owner/restaurants/{ownerId}",
+                        "/api/list/restaurants")
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
         return http.build();
