@@ -30,7 +30,7 @@ public class DishListQueryUseCase implements DishListQueryPort {
                         plato.getCategoria(),
                         plato.getActivo()
                 ))
-                .collect(Collectors.toList());
+                .toList();
         return new DishPageResponseDto(
                 dishes,
                 platoPage.getNumber(),
@@ -40,4 +40,3 @@ public class DishListQueryUseCase implements DishListQueryPort {
         );
     }
 }
-

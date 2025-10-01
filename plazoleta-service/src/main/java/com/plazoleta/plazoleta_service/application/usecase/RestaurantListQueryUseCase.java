@@ -26,7 +26,6 @@ public class RestaurantListQueryUseCase implements RestaurantListQueryPort {
                         restaurante.getTelefono(),
                         restaurante.getUrlLogo()
                 ))
-                .collect(Collectors.toList());
+                .toList();
     }
 }
-

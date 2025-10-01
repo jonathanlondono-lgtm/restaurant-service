@@ -12,6 +12,6 @@ public class UserRestMapper {
         if (dtos == null) return List.of();
         return java.util.Arrays.stream(dtos)
                 .map(RoleResponseDto::getName)
-                .collect(Collectors.toList());
+                .toList();
     }
 }

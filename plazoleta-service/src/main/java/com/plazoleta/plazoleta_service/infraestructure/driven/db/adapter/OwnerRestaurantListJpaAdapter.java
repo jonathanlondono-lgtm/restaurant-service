@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -22,7 +21,6 @@ public class OwnerRestaurantListJpaAdapter implements OwnerRestaurantListQueryPo
         List<RestaurantOwnerEntity> ownerEntities = restaurantOwnerRepository.findByOwnerId(ownerId);
         return ownerEntities.stream()
                 .map(ownerEntity -> restaurantEntityMapper.toDomain(ownerEntity.getRestaurante()))
-                .collect(Collectors.toList());
+                .toList();
     }
 }
-

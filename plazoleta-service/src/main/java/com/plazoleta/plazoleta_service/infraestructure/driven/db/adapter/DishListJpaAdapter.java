@@ -32,8 +32,7 @@ public class DishListJpaAdapter implements DishListQueryPersistencePort {
         }
         List<Plato> platos = dishEntities.getContent().stream()
                 .map(dishEntityMapper::toDomain)
-                .collect(Collectors.toList());
+                .toList();
         return new PageImpl<>(platos, pageable, dishEntities.getTotalElements());
     }
 }
-

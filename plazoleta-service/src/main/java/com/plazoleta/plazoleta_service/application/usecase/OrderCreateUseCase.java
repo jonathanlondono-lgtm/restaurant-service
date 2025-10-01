@@ -1,0 +1,81 @@
+package com.plazoleta.plazoleta_service.application.usecase;
+
+import com.plazoleta.plazoleta_service.application.port.in.OrderCreateUseCasePort;
+import com.plazoleta.plazoleta_service.application.port.out.*;
+import com.plazoleta.plazoleta_service.domain.model.Pedido;
+import com.plazoleta.plazoleta_service.domain.model.PedidoDetalle;
+import com.plazoleta.plazoleta_service.domain.model.Plato;
+import com.plazoleta.plazoleta_service.infraestructure.driven.event.adapter.dto.OrderEventDto;
+import com.plazoleta.plazoleta_service.infraestructure.driver.rest.dto.OrderCreateRequestDto;
+import com.plazoleta.plazoleta_service.infraestructure.driver.rest.dto.DishQuantityDto;
+import com.plazoleta.plazoleta_service.domain.exception.RestaurantNotFoundException;
+import com.plazoleta.plazoleta_service.domain.exception.DishNotFoundInRestaurantException;
+import com.plazoleta.plazoleta_service.domain.exception.ClientHasActiveOrderException;
+import com.plazoleta.plazoleta_service.domain.util.ExceptionMessages;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class OrderCreateUseCase implements OrderCreateUseCasePort {
+    private final TokenServicePort tokenServicePort;
+    private final RestaurantListQueryPersistencePort restaurantListQueryPersistencePort;
+    private final DishListQueryPersistencePort dishListQueryPersistencePort;
+    private final OrderQueryPort orderQueryPort;
+    private final OrderCommandPort orderCommandPort;
+    private final EventPublisherPort eventPublisherPort;
+
+    @Override
+    public void createOrder(OrderCreateRequestDto orderCreateRequestDto, String bearerToken) {
+        Long clientId = tokenServicePort.extractUserId(bearerToken);
+        Long restaurantId = orderCreateRequestDto.getRestaurantId();
+        List<DishQuantityDto> dishes = orderCreateRequestDto.getDishes();
+
+        // Validar restaurante
+        boolean restaurantExists = restaurantListQueryPersistencePort.getAllRestaurants()
+                .stream().anyMatch(r -> r.getId().equals(restaurantId));
+        if (!restaurantExists) {
+            throw new RestaurantNotFoundException(ExceptionMessages.RESTAURANT_NOT_FOUND);
+        }
+
+        // Validar platos
+        List<Long> dishIds = dishes.stream().map(DishQuantityDto::getDishId).toList();
+        List<Long> validDishIds = dishListQueryPersistencePort.getDishesByRestaurant(restaurantId, null, 0, Integer.MAX_VALUE)
+                .stream().map(Plato::getId).toList();
+        if (!validDishIds.containsAll(dishIds)) {
+            throw new DishNotFoundInRestaurantException(ExceptionMessages.DISH_NOT_FOUND_IN_RESTAURANT);
+        }
+
+        // Validar pedidos en curso
+        if (orderQueryPort.hasActiveOrder(clientId)) {
+            throw new ClientHasActiveOrderException(ExceptionMessages.CLIENT_HAS_ACTIVE_ORDER);
+        }
+
+        // Mapear a dominio
+        List<PedidoDetalle> detalles = dishes.stream()
+                .map(d -> new PedidoDetalle(null, null, d.getDishId(), d.getQuantity()))
+                .toList();
+        Pedido pedido = new Pedido(null, clientId, restaurantId, "PENDIENTE", null,
+                LocalDateTime.now(), LocalDateTime.now(), null, detalles);
+
+        // Persistir pedido
+        Pedido savedPedido = orderCommandPort.saveOrder(pedido);
+
+        // Construir y publicar evento genérico
+        OrderEventDto event = new OrderEventDto(
+            savedPedido.getId(),
+            clientId,
+            restaurantId,
+            savedPedido.getEstado(), // "PENDIENTE"
+            savedPedido.getFechaCreacion().toString(),
+            "plazoleta-service",
+            null,
+            null
+        );
+        eventPublisherPort.publishOrderEvent(event);
+    }
+}

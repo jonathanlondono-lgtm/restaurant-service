@@ -26,6 +26,6 @@ public class OwnerRestaurantListQueryUseCase implements OwnerRestaurantQueryServ
             dto.setPhone(r.getTelefono());
             dto.setUrlLogo(r.getUrlLogo());
             return dto;
-        }).collect(Collectors.toList());
+        }).toList();
     }
 }
