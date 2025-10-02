@@ -10,8 +10,8 @@ import com.plazoleta.plazoleta_service.domain.exception.OwnerNotAuthorizedExcept
 import com.plazoleta.plazoleta_service.domain.model.Plato;
 import com.plazoleta.plazoleta_service.domain.util.ExceptionMessages;
 import com.plazoleta.plazoleta_service.domain.util.RegexPatterns;
-import com.plazoleta.plazoleta_service.infraestructure.driver.rest.dto.DishUpdateRequestDto;
-import com.plazoleta.plazoleta_service.infraestructure.driver.rest.dto.DishUpdateResponseDto;
+import com.plazoleta.plazoleta_service.application.dto.DishUpdateRequestDto;
+import com.plazoleta.plazoleta_service.application.dto.DishUpdateResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

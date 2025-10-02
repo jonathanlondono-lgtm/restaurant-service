@@ -1,7 +1,7 @@
 package com.plazoleta.plazoleta_service.infraestructure.driver.rest.controller;
 
 import com.plazoleta.plazoleta_service.application.port.in.DishEnableDisableServicePort;
-import com.plazoleta.plazoleta_service.infraestructure.driver.rest.dto.DishEnableDisableRequestDto;
+import com.plazoleta.plazoleta_service.application.dto.DishEnableDisableRequestDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

@@ -3,23 +3,50 @@ package com.plazoleta.plazoleta_service.infraestructure.driven.db.mapper;
 import com.plazoleta.plazoleta_service.domain.model.Pedido;
 import com.plazoleta.plazoleta_service.infraestructure.driven.db.entity.OrderEntity;
 import com.plazoleta.plazoleta_service.infraestructure.driven.db.entity.RestaurantEntity;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
+import org.springframework.stereotype.Component;
 
+@Component
+public class OrderEntityMapper {
 
-@Mapper(componentModel = "spring")
-public interface OrderEntityMapper {
-    @Mapping(target = "restaurante", source = "restauranteId", qualifiedByName = "mapRestauranteId")
-    OrderEntity toEntity(Pedido pedido);
+    // Dominio -> Entidad
+    public OrderEntity toEntity(Pedido pedido) {
+        if (pedido == null) return null;
 
-    Pedido toDomain(OrderEntity entity);
+        OrderEntity entity = new OrderEntity();
+        entity.setId(pedido.getId());
+        entity.setClienteId(pedido.getClienteId());
+        entity.setEstado(pedido.getEstado());
+        entity.setEmpleadoAsignadoId(pedido.getEmpleadoAsignadoId());
+        entity.setFechaCreacion(pedido.getFechaCreacion());
+        entity.setFechaActualizacion(pedido.getFechaActualizacion());
+        entity.setPinSeguridad(pedido.getPinSeguridad());
 
-    @Named("mapRestauranteId")
-    default RestaurantEntity mapRestauranteId(Long restauranteId) {
-        if (restauranteId == null) return null;
-        RestaurantEntity entity = new RestaurantEntity();
-        entity.setId(restauranteId);
+        if (pedido.getRestauranteId() != null) {
+            RestaurantEntity restaurante = new RestaurantEntity();
+            restaurante.setId(pedido.getRestauranteId());
+            entity.setRestaurante(restaurante);
+        }
+
         return entity;
+    }
+
+    // Entidad -> Dominio
+    public Pedido toDomain(OrderEntity entity) {
+        if (entity == null) return null;
+
+        Pedido pedido = new Pedido();
+        pedido.setId(entity.getId());
+        pedido.setClienteId(entity.getClienteId());
+        pedido.setEstado(entity.getEstado());
+        pedido.setEmpleadoAsignadoId(entity.getEmpleadoAsignadoId());
+        pedido.setFechaCreacion(entity.getFechaCreacion());
+        pedido.setFechaActualizacion(entity.getFechaActualizacion());
+        pedido.setPinSeguridad(entity.getPinSeguridad());
+
+        if (entity.getRestaurante() != null) {
+            pedido.setRestauranteId(entity.getRestaurante().getId());
+        }
+
+        return pedido;
     }
 }

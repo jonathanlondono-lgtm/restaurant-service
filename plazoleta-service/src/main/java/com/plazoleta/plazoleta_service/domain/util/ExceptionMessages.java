@@ -20,4 +20,5 @@ public class ExceptionMessages {
     public static final String RESTAURANT_NOT_FOUND = "Restaurant not found.";
     public static final String DISH_NOT_FOUND_IN_RESTAURANT = "One or more dishes not found in restaurant.";
     public static final String CLIENT_HAS_ACTIVE_ORDER = "Client has active order.";
+    public static final String INVALID_ORDER_DETAIL_DISH_ID = "Dish ID in order detail is null for this order.";
 }

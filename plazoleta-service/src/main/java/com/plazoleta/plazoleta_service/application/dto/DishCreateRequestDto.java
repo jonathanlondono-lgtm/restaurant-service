@@ -1,4 +1,4 @@
-package com.plazoleta.plazoleta_service.infraestructure.driver.rest.dto;
+package com.plazoleta.plazoleta_service.application.dto;
 
 import lombok.Data;
 import jakarta.validation.constraints.NotBlank;

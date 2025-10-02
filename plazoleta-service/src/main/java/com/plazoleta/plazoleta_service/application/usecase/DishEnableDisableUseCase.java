@@ -10,7 +10,7 @@ import com.plazoleta.plazoleta_service.domain.exception.InvalidDishRestaurantIdE
 import com.plazoleta.plazoleta_service.domain.exception.OwnerNotAuthorizedException;
 import com.plazoleta.plazoleta_service.domain.model.Plato;
 import com.plazoleta.plazoleta_service.domain.util.ExceptionMessages;
-import com.plazoleta.plazoleta_service.infraestructure.driver.rest.dto.DishEnableDisableRequestDto;
+import com.plazoleta.plazoleta_service.application.dto.DishEnableDisableRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

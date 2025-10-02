@@ -3,14 +3,13 @@ package com.plazoleta.plazoleta_service.application.usecase;
 import com.plazoleta.plazoleta_service.application.port.in.DishListQueryPort;
 import com.plazoleta.plazoleta_service.application.port.out.DishListQueryPersistencePort;
 import com.plazoleta.plazoleta_service.domain.model.Plato;
-import com.plazoleta.plazoleta_service.infraestructure.driver.rest.dto.DishListResponseDto;
-import com.plazoleta.plazoleta_service.infraestructure.driver.rest.dto.DishPageResponseDto;
+import com.plazoleta.plazoleta_service.application.dto.DishListResponseDto;
+import com.plazoleta.plazoleta_service.application.dto.DishPageResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

@@ -13,10 +13,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class JwtTokenServiceAdapterTest {
     private JwtTokenServiceAdapter jwtTokenServiceAdapter;
     private String secret = "mysecretkeymysecretkeymysecretkey12";
+    private UserIdExtractor userIdExtractor;
+    private RestaurantIdExtractor restaurantIdExtractor;
 
     @BeforeEach
     void setUp() {
-        jwtTokenServiceAdapter = new JwtTokenServiceAdapter();
+        userIdExtractor = new UserIdExtractor();
+        restaurantIdExtractor = new RestaurantIdExtractor();
+        jwtTokenServiceAdapter = new JwtTokenServiceAdapter(userIdExtractor, restaurantIdExtractor);
         java.lang.reflect.Field field;
         try {
             field = JwtTokenServiceAdapter.class.getDeclaredField("jwtSecret");
@@ -67,4 +71,3 @@ class JwtTokenServiceAdapterTest {
         assertThrows(InvalidTokenException.class, () -> jwtTokenServiceAdapter.extractUserId(bearer));
     }
 }
-

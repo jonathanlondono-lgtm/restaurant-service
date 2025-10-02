@@ -1,9 +1,8 @@
 package com.plazoleta.plazoleta_service.infraestructure.driver.rest.controller;
 
 import com.plazoleta.plazoleta_service.application.port.in.DishListQueryPort;
-import com.plazoleta.plazoleta_service.infraestructure.driver.rest.dto.DishPageResponseDto;
+import com.plazoleta.plazoleta_service.application.dto.DishPageResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;

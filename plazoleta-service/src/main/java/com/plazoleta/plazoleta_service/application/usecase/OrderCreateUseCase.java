@@ -6,8 +6,8 @@ import com.plazoleta.plazoleta_service.domain.model.Pedido;
 import com.plazoleta.plazoleta_service.domain.model.PedidoDetalle;
 import com.plazoleta.plazoleta_service.domain.model.Plato;
 import com.plazoleta.plazoleta_service.infraestructure.driven.event.adapter.dto.OrderEventDto;
-import com.plazoleta.plazoleta_service.infraestructure.driver.rest.dto.OrderCreateRequestDto;
-import com.plazoleta.plazoleta_service.infraestructure.driver.rest.dto.DishQuantityDto;
+import com.plazoleta.plazoleta_service.application.dto.OrderCreateRequestDto;
+import com.plazoleta.plazoleta_service.application.dto.DishQuantityDto;
 import com.plazoleta.plazoleta_service.domain.exception.RestaurantNotFoundException;
 import com.plazoleta.plazoleta_service.domain.exception.DishNotFoundInRestaurantException;
 import com.plazoleta.plazoleta_service.domain.exception.ClientHasActiveOrderException;
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

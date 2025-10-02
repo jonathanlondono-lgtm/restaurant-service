@@ -1,7 +1,7 @@
 package com.plazoleta.plazoleta_service.infraestructure.driver.rest.controller;
 
 import com.plazoleta.plazoleta_service.application.port.in.OrderCreateUseCasePort;
-import com.plazoleta.plazoleta_service.infraestructure.driver.rest.dto.OrderCreateRequestDto;
+import com.plazoleta.plazoleta_service.application.dto.OrderCreateRequestDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

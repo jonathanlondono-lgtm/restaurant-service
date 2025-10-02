@@ -7,7 +7,7 @@ import com.plazoleta.plazoleta_service.application.port.out.TokenServicePort;
 import com.plazoleta.plazoleta_service.domain.exception.*;
 import com.plazoleta.plazoleta_service.domain.model.Plato;
 import com.plazoleta.plazoleta_service.domain.util.ExceptionMessages;
-import com.plazoleta.plazoleta_service.infraestructure.driver.rest.dto.DishEnableDisableRequestDto;
+import com.plazoleta.plazoleta_service.application.dto.DishEnableDisableRequestDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

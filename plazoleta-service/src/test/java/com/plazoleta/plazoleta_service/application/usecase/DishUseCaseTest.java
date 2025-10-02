@@ -9,7 +9,7 @@ import com.plazoleta.plazoleta_service.domain.exception.InvalidTokenException;
 import com.plazoleta.plazoleta_service.domain.exception.OwnerNotAuthorizedException;
 import com.plazoleta.plazoleta_service.domain.model.Plato;
 import com.plazoleta.plazoleta_service.domain.service.RegexValidationService;
-import com.plazoleta.plazoleta_service.infraestructure.driver.rest.dto.DishCreateRequestDto;
+import com.plazoleta.plazoleta_service.application.dto.DishCreateRequestDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

@@ -12,7 +12,7 @@ import com.plazoleta.plazoleta_service.domain.model.RestauranteOwner;
 import com.plazoleta.plazoleta_service.domain.service.NitValidationService;
 import com.plazoleta.plazoleta_service.domain.service.PhoneValidationService;
 import com.plazoleta.plazoleta_service.domain.service.RestaurantNameValidationService;
-import com.plazoleta.plazoleta_service.infraestructure.driver.rest.dto.RestaurantCreateRequestDto;
+import com.plazoleta.plazoleta_service.application.dto.RestaurantCreateRequestDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

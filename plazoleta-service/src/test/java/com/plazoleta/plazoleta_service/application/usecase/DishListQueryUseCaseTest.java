@@ -2,7 +2,7 @@ package com.plazoleta.plazoleta_service.application.usecase;
 
 import com.plazoleta.plazoleta_service.application.port.out.DishListQueryPersistencePort;
 import com.plazoleta.plazoleta_service.domain.model.Plato;
-import com.plazoleta.plazoleta_service.infraestructure.driver.rest.dto.DishPageResponseDto;
+import com.plazoleta.plazoleta_service.application.dto.DishPageResponseDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

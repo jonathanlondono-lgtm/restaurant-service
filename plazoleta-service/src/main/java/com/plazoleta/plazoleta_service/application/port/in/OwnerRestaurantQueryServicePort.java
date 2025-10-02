@@ -1,6 +1,6 @@
 package com.plazoleta.plazoleta_service.application.port.in;
 
-import com.plazoleta.plazoleta_service.infraestructure.driver.rest.dto.RestaurantSummaryDto;
+import com.plazoleta.plazoleta_service.application.dto.RestaurantSummaryDto;
 import java.util.List;
 
 public interface OwnerRestaurantQueryServicePort {

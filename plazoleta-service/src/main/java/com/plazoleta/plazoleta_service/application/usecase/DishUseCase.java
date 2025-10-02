@@ -5,7 +5,7 @@ import com.plazoleta.plazoleta_service.application.port.out.DishPersistencePort;
 import com.plazoleta.plazoleta_service.application.port.out.OwnerRestaurantQueryPort;
 import com.plazoleta.plazoleta_service.application.port.out.TokenServicePort;
 import com.plazoleta.plazoleta_service.domain.model.Plato;
-import com.plazoleta.plazoleta_service.infraestructure.driver.rest.dto.DishCreateRequestDto;
+import com.plazoleta.plazoleta_service.application.dto.DishCreateRequestDto;
 import com.plazoleta.plazoleta_service.domain.service.RegexValidationService;
 import com.plazoleta.plazoleta_service.domain.exception.InvalidDishFieldException;
 import com.plazoleta.plazoleta_service.domain.exception.InvalidDishPriceException;

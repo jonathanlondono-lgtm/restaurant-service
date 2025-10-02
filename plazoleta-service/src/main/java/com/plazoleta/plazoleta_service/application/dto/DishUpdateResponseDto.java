@@ -1,4 +1,4 @@
-package com.plazoleta.plazoleta_service.infraestructure.driver.rest.dto;
+package com.plazoleta.plazoleta_service.application.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,6 +1,6 @@
 package com.plazoleta.plazoleta_service.application.usecase;
 
-import com.plazoleta.plazoleta_service.infraestructure.driver.rest.dto.RestaurantCreateRequestDto;
+import com.plazoleta.plazoleta_service.application.dto.RestaurantCreateRequestDto;
 import com.plazoleta.plazoleta_service.application.port.in.RestaurantServicePort;
 import com.plazoleta.plazoleta_service.application.port.out.RestaurantOwnerPersistencePort;
 import com.plazoleta.plazoleta_service.application.port.out.RestaurantPersistencePort;

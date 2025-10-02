@@ -1,7 +1,7 @@
 package com.plazoleta.plazoleta_service.infraestructure.driver.rest.controller;
 
 import com.plazoleta.plazoleta_service.application.port.in.RestaurantListQueryPort;
-import com.plazoleta.plazoleta_service.infraestructure.driver.rest.dto.RestaurantListResponseDto;
+import com.plazoleta.plazoleta_service.application.dto.RestaurantListResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

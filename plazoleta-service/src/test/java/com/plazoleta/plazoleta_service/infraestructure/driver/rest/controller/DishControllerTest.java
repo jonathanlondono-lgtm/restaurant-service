@@ -3,7 +3,7 @@ package com.plazoleta.plazoleta_service.infraestructure.driver.rest.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.plazoleta.plazoleta_service.application.port.in.DishServicePort;
 import com.plazoleta.plazoleta_service.domain.model.Plato;
-import com.plazoleta.plazoleta_service.infraestructure.driver.rest.dto.DishCreateRequestDto;
+import com.plazoleta.plazoleta_service.application.dto.DishCreateRequestDto;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;

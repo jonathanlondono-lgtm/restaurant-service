@@ -2,8 +2,8 @@ package com.plazoleta.plazoleta_service.infraestructure.driver.rest.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.plazoleta.plazoleta_service.application.port.in.DishUpdateServiceport;
-import com.plazoleta.plazoleta_service.infraestructure.driver.rest.dto.DishUpdateRequestDto;
-import com.plazoleta.plazoleta_service.infraestructure.driver.rest.dto.DishUpdateResponseDto;
+import com.plazoleta.plazoleta_service.application.dto.DishUpdateRequestDto;
+import com.plazoleta.plazoleta_service.application.dto.DishUpdateResponseDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

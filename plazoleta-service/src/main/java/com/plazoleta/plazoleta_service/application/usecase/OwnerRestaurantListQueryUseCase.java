@@ -3,12 +3,11 @@ package com.plazoleta.plazoleta_service.application.usecase;
 import com.plazoleta.plazoleta_service.application.port.in.OwnerRestaurantQueryServicePort;
 import com.plazoleta.plazoleta_service.application.port.out.OwnerRestaurantListQueryPort;
 import com.plazoleta.plazoleta_service.domain.model.Restaurante;
-import com.plazoleta.plazoleta_service.infraestructure.driver.rest.dto.RestaurantSummaryDto;
+import com.plazoleta.plazoleta_service.application.dto.RestaurantSummaryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

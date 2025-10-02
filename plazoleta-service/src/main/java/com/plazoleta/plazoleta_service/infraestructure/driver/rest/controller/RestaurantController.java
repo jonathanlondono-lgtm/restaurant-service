@@ -2,7 +2,7 @@ package com.plazoleta.plazoleta_service.infraestructure.driver.rest.controller;
 
 import com.plazoleta.plazoleta_service.application.port.in.RestaurantServicePort;
 import com.plazoleta.plazoleta_service.domain.model.Restaurante;
-import com.plazoleta.plazoleta_service.infraestructure.driver.rest.dto.RestaurantCreateRequestDto;
+import com.plazoleta.plazoleta_service.application.dto.RestaurantCreateRequestDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
