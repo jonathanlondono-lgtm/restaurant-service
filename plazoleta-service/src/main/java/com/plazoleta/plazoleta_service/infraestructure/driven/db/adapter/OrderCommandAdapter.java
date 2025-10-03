@@ -44,4 +44,21 @@ public class OrderCommandAdapter implements OrderCommandPort {
         pedido.setId(savedOrder.getId());
         return pedido;
     }
+
+    @Override
+    public Pedido updateOrder(Pedido pedido) {
+        // Buscar el pedido existente
+        OrderEntity existingOrder = orderRepository.findById(pedido.getId()).orElse(null);
+        if (existingOrder == null) {
+            return null;
+        }
+        // Actualizar los campos necesarios
+        existingOrder.setEmpleadoAsignadoId(pedido.getEmpleadoAsignadoId());
+        existingOrder.setEstado(pedido.getEstado());
+        existingOrder.setFechaActualizacion(pedido.getFechaActualizacion());
+        // Guardar el pedido actualizado
+        OrderEntity updatedOrder = orderRepository.save(existingOrder);
+        // Mapear y devolver
+        return orderEntityMapper.toDomain(updatedOrder);
+    }
 }

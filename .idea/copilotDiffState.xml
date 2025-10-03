@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="$PROJECT_DIR$/plazoleta-service/src/main/java/com/plazoleta/plazoleta_service/application/port/out/OrderQueryPort.java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/plazoleta-service/src/main/java/com/plazoleta/plazoleta_service/application/port/out/OrderQueryPort.java" />
+              <option name="originalContent" value="package com.plazoleta.plazoleta_service.application.port.out;&#10;&#10;public interface OrderQueryPort {&#10;    boolean hasActiveOrder(Long clientId);&#10;}" />
+              <option name="updatedContent" value="package com.plazoleta.plazoleta_service.application.port.out;&#10;&#10;public interface OrderQueryPort {&#10;    boolean hasActiveOrder(Long clientId);&#10;}" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/plazoleta-service/src/main/java/com/plazoleta/plazoleta_service/infraestructure/driven/db/adapter/OrderQueryAdapter.java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/plazoleta-service/src/main/java/com/plazoleta/plazoleta_service/infraestructure/driven/db/adapter/OrderQueryAdapter.java" />
+              <option name="originalContent" value="package com.plazoleta.plazoleta_service.infraestructure.driven.db.adapter;&#10;&#10;import com.plazoleta.plazoleta_service.application.port.out.OrderQueryPort;&#10;import com.plazoleta.plazoleta_service.infraestructure.driven.db.repository.OrderRepository;&#10;import lombok.RequiredArgsConstructor;&#10;import org.springframework.stereotype.Component;&#10;import java.util.List;&#10;&#10;@Component&#10;@RequiredArgsConstructor&#10;public class OrderQueryAdapter implements OrderQueryPort {&#10;    private final OrderRepository orderRepository;&#10;&#10;    @Override&#10;    public boolean hasActiveOrder(Long clientId) {&#10;        List&lt;String&gt; activeStates = List.of(&quot;PENDIENTE&quot;, &quot;EN_PREPARACION&quot;, &quot;LISTO&quot;);&#10;        return orderRepository.existsByClienteIdAndEstadoIn(clientId, activeStates);&#10;    }&#10;}&#10;&#10;" />
+              <option name="updatedContent" value="package com.plazoleta.plazoleta_service.infraestructure.driven.db.adapter;&#10;&#10;import com.plazoleta.plazoleta_service.application.port.out.OrderQueryPort;&#10;import com.plazoleta.plazoleta_service.infraestructure.driven.db.repository.OrderRepository;&#10;import lombok.RequiredArgsConstructor;&#10;import org.springframework.stereotype.Component;&#10;import java.util.List;&#10;&#10;@Component&#10;@RequiredArgsConstructor&#10;public class OrderQueryAdapter implements OrderQueryPort {&#10;    private final OrderRepository orderRepository;&#10;&#10;    @Override&#10;    public boolean hasActiveOrder(Long clientId) {&#10;        List&lt;String&gt; activeStates = List.of(&quot;PENDIENTE&quot;, &quot;EN_PREPARACION&quot;, &quot;LISTO&quot;);&#10;        return orderRepository.existsByClienteIdAndEstadoIn(clientId, activeStates);&#10;    }&#10;}&#10;&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

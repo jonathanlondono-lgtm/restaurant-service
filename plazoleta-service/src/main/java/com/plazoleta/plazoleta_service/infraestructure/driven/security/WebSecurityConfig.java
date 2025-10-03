@@ -65,6 +65,9 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/dishes").hasAuthority("PROPIETARIO")
                         .requestMatchers("/api/orders").hasAuthority("CLIENTE")
                         .requestMatchers("/api/orders/list").hasAuthority("EMPLEADO")
+                        .requestMatchers("/api/orders/assign").hasAuthority("EMPLEADO")
+
+
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2

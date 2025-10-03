@@ -4,5 +4,5 @@ import com.plazoleta.plazoleta_service.domain.model.Pedido;
 
 public interface OrderCommandPort {
     Pedido saveOrder(Pedido pedido);
+    Pedido updateOrder(Pedido pedido);
 }
-

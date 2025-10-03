@@ -16,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.ZoneOffset;
 import java.util.List;
 
 @Service
@@ -65,12 +67,13 @@ public class OrderCreateUseCase implements OrderCreateUseCasePort {
         Pedido savedPedido = orderCommandPort.saveOrder(pedido);
 
         // Construir y publicar evento genérico
+        String fechaEvento = DateTimeFormatter.ISO_INSTANT.format(savedPedido.getFechaCreacion().atZone(ZoneOffset.UTC));
         OrderEventDto event = new OrderEventDto(
             savedPedido.getId(),
             clientId,
             restaurantId,
-            savedPedido.getEstado(), // "PENDIENTE"
-            savedPedido.getFechaCreacion().toString(),
+            savedPedido.getEstado(),
+            fechaEvento,
             "plazoleta-service",
             null,
             null
