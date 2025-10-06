@@ -95,6 +95,46 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
+    @ExceptionHandler(InvalidDishPriceException.class)
+    public ResponseEntity<Object> handleInvalidDishPrice(InvalidDishPriceException ex) {
+        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidDishFieldException.class)
+    public ResponseEntity<Object> handleInvalidDishField(InvalidDishFieldException ex) {
+        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(DishNotFoundInRestaurantException.class)
+    public ResponseEntity<Object> handleDishNotFoundInRestaurant(DishNotFoundInRestaurantException ex) {
+        return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidOrderDetailDishIdException.class)
+    public ResponseEntity<Object> handleInvalidOrderDetailDishId(InvalidOrderDetailDishIdException ex) {
+        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(ClientHasActiveOrderException.class)
+    public ResponseEntity<Object> handleClientHasActiveOrder(ClientHasActiveOrderException ex) {
+        return buildResponse(HttpStatus.CONFLICT, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidSecurityPinException.class)
+    public ResponseEntity<Object> handleInvalidSecurityPin(InvalidSecurityPinException ex) {
+        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(OrderNotFoundOrNotInPreparationStateException.class)
+    public ResponseEntity<Object> handleOrderNotFoundOrNotInPreparationState(OrderNotFoundOrNotInPreparationStateException ex) {
+        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(RestaurantNotFoundException.class)
+    public ResponseEntity<Object> handleRestaurantNotFound(RestaurantNotFoundException ex) {
+        return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
     private ResponseEntity<Object> buildResponse(HttpStatus status, String message) {
         Map<String, Object> body = new HashMap<>();
         body.put("timestamp", LocalDateTime.now());

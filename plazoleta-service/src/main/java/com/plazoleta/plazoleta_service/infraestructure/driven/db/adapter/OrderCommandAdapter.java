@@ -19,14 +19,12 @@ public class OrderCommandAdapter implements OrderCommandPort {
 
     @Override
     public Pedido saveOrder(Pedido pedido) {
-        // Mapear pedido a entidad
         OrderEntity orderEntity = orderEntityMapper.toEntity(pedido);
 
-        // Crear los detalles y asociarlos al pedido
         List<OrderDetailEntity> detailEntities = pedido.getDetalles().stream()
                 .map(detalle -> {
                     OrderDetailEntity entity = new OrderDetailEntity();
-                    entity.setPedido(orderEntity); // aquí se enlaza con el pedido en memoria
+                    entity.setPedido(orderEntity);
                     DishEntity dishEntity = new DishEntity();
                     dishEntity.setId(detalle.getPlatoId());
                     entity.setPlato(dishEntity);
@@ -37,28 +35,24 @@ public class OrderCommandAdapter implements OrderCommandPort {
 
         orderEntity.setDetalles(detailEntities);
 
-        // Guardar en cascada (INSERT pedido y luego detalles)
         OrderEntity savedOrder = orderRepository.save(orderEntity);
 
-        // Reflejar el id en el dominio
         pedido.setId(savedOrder.getId());
         return pedido;
     }
 
     @Override
     public Pedido updateOrder(Pedido pedido) {
-        // Buscar el pedido existente
         OrderEntity existingOrder = orderRepository.findById(pedido.getId()).orElse(null);
         if (existingOrder == null) {
             return null;
         }
-        // Actualizar los campos necesarios
         existingOrder.setEmpleadoAsignadoId(pedido.getEmpleadoAsignadoId());
         existingOrder.setEstado(pedido.getEstado());
         existingOrder.setFechaActualizacion(pedido.getFechaActualizacion());
-        // Guardar el pedido actualizado
+        existingOrder.setPinSeguridad(pedido.getPinSeguridad());
+
         OrderEntity updatedOrder = orderRepository.save(existingOrder);
-        // Mapear y devolver
         return orderEntityMapper.toDomain(updatedOrder);
     }
 }

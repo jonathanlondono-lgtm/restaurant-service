@@ -18,8 +18,7 @@ public class OrderDetailEntityMapper {
         entity.setId(detalle.getId());
         entity.setCantidad(detalle.getCantidad());
 
-        // Ojo: aquí solo puedes setear pedido/plato si instancias objetos "fantasma" con el ID
-        // para no romper la relación JPA
+
         if (detalle.getPedidoId() != null) {
             var pedido = new OrderEntity();
             pedido.setId(detalle.getPedidoId());

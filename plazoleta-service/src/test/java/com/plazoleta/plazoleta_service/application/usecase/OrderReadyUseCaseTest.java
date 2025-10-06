@@ -60,7 +60,6 @@ class OrderReadyUseCaseTest {
         when(pinGeneratorService.generatePin()).thenReturn(pin);
         when(orderAssignQueryPort.findByIdAndRestauranteIdAndEstado(1L, restauranteId, "EN_PREPARACION")).thenReturn(pedido);
 
-        // Capturadores para verificar los eventos enviados
         ArgumentCaptor<OrderEventDto> eventCaptor = ArgumentCaptor.forClass(OrderEventDto.class);
         ArgumentCaptor<OrderReadyNotificationEventDto> notificationCaptor = ArgumentCaptor.forClass(OrderReadyNotificationEventDto.class);
 

@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
@@ -41,10 +42,15 @@ public class OrderReadyUseCase implements OrderReadyUseCasePort {
         }
 
         pedido.setEstado("LISTO");
-        pedido.setFechaActualizacion(LocalDateTime.ofInstant(Instant.now(), ZoneOffset.UTC));
+        pedido.setFechaActualizacion(LocalDateTime.now());
+        pedido.setPinSeguridad(pin);
         orderCommandPort.updateOrder(pedido);
 
-        String fecha = DateTimeFormatter.ISO_INSTANT.withZone(ZoneOffset.UTC).format(Instant.now());
+        String fecha = DateTimeFormatter.ISO_INSTANT
+                .withZone(ZoneOffset.UTC)
+                .format(pedido.getFechaActualizacion().atZone(ZoneId.systemDefault()).toInstant());
+
+
         OrderEventDto eventDto = new OrderEventDto(
                 pedido.getId(),
                 pedido.getClienteId(),

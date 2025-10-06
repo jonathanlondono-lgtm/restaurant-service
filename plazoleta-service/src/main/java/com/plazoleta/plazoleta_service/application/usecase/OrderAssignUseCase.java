@@ -6,12 +6,15 @@ import com.plazoleta.plazoleta_service.application.port.out.OrderAssignQueryPort
 import com.plazoleta.plazoleta_service.application.port.out.OrderCommandPort;
 import com.plazoleta.plazoleta_service.application.port.out.TokenServicePort;
 import com.plazoleta.plazoleta_service.application.port.out.EventPublisherPort;
+import com.plazoleta.plazoleta_service.domain.exception.OrderNotFoundOrNotInPreparationStateException;
 import com.plazoleta.plazoleta_service.domain.model.Pedido;
+import com.plazoleta.plazoleta_service.domain.util.ExceptionMessages;
 import com.plazoleta.plazoleta_service.infraestructure.driven.event.adapter.dto.OrderEventDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
@@ -31,17 +34,21 @@ public class OrderAssignUseCase implements OrderAssignUseCasePort {
 
         Pedido pedido = orderAssignQueryPort.findByIdAndRestauranteIdAndEstado(orderId, restauranteId, "PENDIENTE");
         if (pedido == null) {
-            throw new IllegalArgumentException("Order not found or not in PENDING state for this restaurant.");
+            throw new OrderNotFoundOrNotInPreparationStateException(ExceptionMessages.ORDER_NOT_FOUND_OR_NOT_IN_PREPARATION);
         }
 
-        // Asignar empleado y cambiar estado
         pedido.setEmpleadoAsignadoId(empleadoId);
         pedido.setEstado("EN_PREPARACION");
-        pedido.setFechaActualizacion(LocalDateTime.ofInstant(Instant.now(), ZoneOffset.UTC));
+
+        pedido.setFechaActualizacion(LocalDateTime.now());
+
         orderCommandPort.updateOrder(pedido);
 
-        // Enviar evento
-        String fecha = DateTimeFormatter.ISO_INSTANT.withZone(ZoneOffset.UTC).format(Instant.now());
+        String fecha = DateTimeFormatter.ISO_INSTANT
+                .withZone(ZoneOffset.UTC)
+                .format(pedido.getFechaActualizacion().atZone(ZoneId.systemDefault()).toInstant());
+
+
         OrderEventDto eventDto = new OrderEventDto(
                 pedido.getId(),
                 pedido.getClienteId(),

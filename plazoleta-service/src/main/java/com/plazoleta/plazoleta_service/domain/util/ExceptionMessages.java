@@ -22,4 +22,5 @@ public class ExceptionMessages {
     public static final String CLIENT_HAS_ACTIVE_ORDER = "Client has active order.";
     public static final String INVALID_ORDER_DETAIL_DISH_ID = "Dish ID in order detail is null for this order.";
     public static final String ORDER_NOT_FOUND_OR_NOT_IN_PREPARATION = "Order not found or not in PREPARATION state for this restaurant.";
+    public static final String PIN_NOT_VALID = "The provided PIN is not valid.";
 }

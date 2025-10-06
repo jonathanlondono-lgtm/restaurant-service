@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderEntityMapper {
 
-    // Dominio -> Entidad
     public OrderEntity toEntity(Pedido pedido) {
         if (pedido == null) return null;
 
@@ -31,7 +30,6 @@ public class OrderEntityMapper {
         return entity;
     }
 
-    // Entidad -> Dominio
     public Pedido toDomain(OrderEntity entity) {
         if (entity == null) return null;
 

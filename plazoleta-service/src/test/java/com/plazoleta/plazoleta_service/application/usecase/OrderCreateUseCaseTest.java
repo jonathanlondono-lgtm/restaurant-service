@@ -53,7 +53,6 @@ class OrderCreateUseCaseTest {
 
         when(tokenServicePort.extractUserId(token)).thenReturn(clientId);
         when(restaurantListQueryPersistencePort.getAllRestaurants()).thenReturn(List.of(
-                // Simula restaurante existente
                 new com.plazoleta.plazoleta_service.domain.model.Restaurante(restaurantId, "Rest", "Dir", "Tel", "Logo", "Nit", LocalDateTime.now(), LocalDateTime.now())
         ));
         Page<com.plazoleta.plazoleta_service.domain.model.Plato> platosPage = new PageImpl<>(List.of(

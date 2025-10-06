@@ -37,14 +37,12 @@ public class OrderCreateUseCase implements OrderCreateUseCasePort {
         String phone= tokenServicePort.extraxtPhoneNumber(bearerToken);
         List<DishQuantityDto> dishes = orderCreateRequestDto.getDishes();
 
-        // Validar restaurante
         boolean restaurantExists = restaurantListQueryPersistencePort.getAllRestaurants()
                 .stream().anyMatch(r -> r.getId().equals(restaurantId));
         if (!restaurantExists) {
             throw new RestaurantNotFoundException(ExceptionMessages.RESTAURANT_NOT_FOUND);
         }
 
-        // Validar platos
         List<Long> dishIds = dishes.stream().map(DishQuantityDto::getDishId).toList();
         List<Long> validDishIds = dishListQueryPersistencePort.getDishesByRestaurant(restaurantId, null, 0, Integer.MAX_VALUE)
                 .stream().map(Plato::getId).toList();
@@ -52,22 +50,18 @@ public class OrderCreateUseCase implements OrderCreateUseCasePort {
             throw new DishNotFoundInRestaurantException(ExceptionMessages.DISH_NOT_FOUND_IN_RESTAURANT);
         }
 
-        // Validar pedidos en curso
         if (orderQueryPort.hasActiveOrder(clientId)) {
             throw new ClientHasActiveOrderException(ExceptionMessages.CLIENT_HAS_ACTIVE_ORDER);
         }
 
-        // Mapear a dominio
         List<PedidoDetalle> detalles = dishes.stream()
                 .map(d -> new PedidoDetalle(null, null, d.getDishId(), d.getQuantity()))
                 .toList();
         Pedido pedido = new Pedido(null, clientId, restaurantId, "PENDIENTE", null,
                 LocalDateTime.now(), LocalDateTime.now(), null, detalles,phone);
 
-        // Persistir pedido
         Pedido savedPedido = orderCommandPort.saveOrder(pedido);
 
-        // Construir y publicar evento genérico
         String fechaEvento = DateTimeFormatter.ISO_INSTANT.format(savedPedido.getFechaCreacion().atZone(ZoneOffset.UTC));
         OrderEventDto event = new OrderEventDto(
             savedPedido.getId(),
