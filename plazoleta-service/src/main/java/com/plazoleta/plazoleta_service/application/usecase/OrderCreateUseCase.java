@@ -34,6 +34,7 @@ public class OrderCreateUseCase implements OrderCreateUseCasePort {
     public void createOrder(OrderCreateRequestDto orderCreateRequestDto, String bearerToken) {
         Long clientId = tokenServicePort.extractUserId(bearerToken);
         Long restaurantId = orderCreateRequestDto.getRestaurantId();
+        String phone= tokenServicePort.extraxtPhoneNumber(bearerToken);
         List<DishQuantityDto> dishes = orderCreateRequestDto.getDishes();
 
         // Validar restaurante
@@ -61,7 +62,7 @@ public class OrderCreateUseCase implements OrderCreateUseCasePort {
                 .map(d -> new PedidoDetalle(null, null, d.getDishId(), d.getQuantity()))
                 .toList();
         Pedido pedido = new Pedido(null, clientId, restaurantId, "PENDIENTE", null,
-                LocalDateTime.now(), LocalDateTime.now(), null, detalles);
+                LocalDateTime.now(), LocalDateTime.now(), null, detalles,phone);
 
         // Persistir pedido
         Pedido savedPedido = orderCommandPort.saveOrder(pedido);

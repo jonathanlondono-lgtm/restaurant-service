@@ -11,10 +11,14 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQConfig {
 
     public static final String PEDIDO_CREADO_QUEUE = "pedido.creado";
-
+    public static final String PEDIDO_LISTO_QUEUE = "pedido.listo";
     @Bean
     public Queue pedidoCreadoQueue() {
         return new Queue(PEDIDO_CREADO_QUEUE, true);
+    }
+
+    @Bean
+    public Queue pedidoListoQueue() {return new Queue(PEDIDO_LISTO_QUEUE, true);
     }
 
     @Bean

@@ -7,14 +7,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderEventDto {
+public class OrderReadyNotificationEventDto {
     private Long pedidoId;
     private Long clienteId;
     private Long restauranteId;
-    private String estado;
     private String fecha;
-    private String fuente;
-    private Long empleadoId;
+    private String mensaje;
     private String pin;
+    private String telefonoCliente;
 }
-

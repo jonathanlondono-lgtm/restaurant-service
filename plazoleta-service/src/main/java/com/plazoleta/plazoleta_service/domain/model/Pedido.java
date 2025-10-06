@@ -19,4 +19,5 @@ public class Pedido {
     private LocalDateTime fechaActualizacion;
     private String pinSeguridad;
     private List<PedidoDetalle> detalles;
+    private String phone;
 }

@@ -63,7 +63,7 @@ class OrderCreateUseCaseTest {
                 .thenReturn(platosPage);
         when(orderQueryPort.hasActiveOrder(clientId)).thenReturn(false);
         Pedido pedidoGuardado = new Pedido(100L, clientId, restaurantId, "PENDIENTE", null, LocalDateTime.now(), LocalDateTime.now(), null,
-                List.of(new PedidoDetalle(null, null, 10L, 2)));
+                List.of(new PedidoDetalle(null, null, 10L, 2)),null);
         when(orderCommandPort.saveOrder(any())).thenReturn(pedidoGuardado);
 
         orderCreateUseCase.createOrder(requestDto, token);

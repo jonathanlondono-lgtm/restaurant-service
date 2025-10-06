@@ -41,5 +41,8 @@ public class OrderEntity {
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderDetailEntity> detalles;
+
+    @Column(name = "phone")
+    private String phone;
 }
 

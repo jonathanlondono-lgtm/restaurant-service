@@ -8,6 +8,8 @@ class PlazoletaServiceApplicationTests {
 
 	@Test
 	void contextLoads() {
-	}
+        // Is empty
+
+    }
 
 }

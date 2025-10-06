@@ -1,13 +1,14 @@
 package com.plazoleta.plazoleta_service.application.usecase;
 
 import com.plazoleta.plazoleta_service.application.dto.OrderAssignRequestDto;
-import com.plazoleta.plazoleta_service.application.port.in.OrderAssignUseCasePort;
-import com.plazoleta.plazoleta_service.application.port.out.OrderAssignQueryPort;
-import com.plazoleta.plazoleta_service.application.port.out.OrderCommandPort;
-import com.plazoleta.plazoleta_service.application.port.out.TokenServicePort;
-import com.plazoleta.plazoleta_service.application.port.out.EventPublisherPort;
+import com.plazoleta.plazoleta_service.application.port.in.OrderReadyUseCasePort;
+import com.plazoleta.plazoleta_service.application.port.out.*;
+import com.plazoleta.plazoleta_service.domain.exception.OrderNotFoundOrNotInPreparationStateException;
 import com.plazoleta.plazoleta_service.domain.model.Pedido;
+import com.plazoleta.plazoleta_service.domain.service.PinGeneratorService;
+import com.plazoleta.plazoleta_service.domain.util.ExceptionMessages;
 import com.plazoleta.plazoleta_service.infraestructure.driven.event.adapter.dto.OrderEventDto;
+import com.plazoleta.plazoleta_service.infraestructure.driven.event.adapter.dto.OrderReadyNotificationEventDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.Instant;
@@ -17,30 +18,32 @@ import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
-public class OrderAssignUseCase implements OrderAssignUseCasePort {
+public class OrderReadyUseCase implements OrderReadyUseCasePort {
     private final OrderAssignQueryPort orderAssignQueryPort;
     private final OrderCommandPort orderCommandPort;
     private final TokenServicePort tokenServicePort;
     private final EventPublisherPort eventPublisherPort;
+    private  final OrderReadyNotificationPublisherPort orderReadyNotificationPublisherPort;
+    private final PinGeneratorService pinGeneratorService;
+
+
 
     @Override
-    public void assignOrderToEmployee(OrderAssignRequestDto requestDto, String bearerToken) {
+    public void markOrderAsReady(OrderAssignRequestDto requestDto, String bearerToken) {
         Long empleadoId = tokenServicePort.extractUserId(bearerToken);
         Long restauranteId = tokenServicePort.extractRestaurantId(bearerToken);
         Long orderId = requestDto.getOrderId();
+        String pin = pinGeneratorService.generatePin();
 
-        Pedido pedido = orderAssignQueryPort.findByIdAndRestauranteIdAndEstado(orderId, restauranteId, "PENDIENTE");
+        Pedido pedido = orderAssignQueryPort.findByIdAndRestauranteIdAndEstado(orderId, restauranteId, "EN_PREPARACION");
         if (pedido == null) {
-            throw new IllegalArgumentException("Order not found or not in PENDING state for this restaurant.");
+            throw new OrderNotFoundOrNotInPreparationStateException(ExceptionMessages.ORDER_NOT_FOUND_OR_NOT_IN_PREPARATION);
         }
 
-        // Asignar empleado y cambiar estado
-        pedido.setEmpleadoAsignadoId(empleadoId);
-        pedido.setEstado("EN_PREPARACION");
+        pedido.setEstado("LISTO");
         pedido.setFechaActualizacion(LocalDateTime.ofInstant(Instant.now(), ZoneOffset.UTC));
         orderCommandPort.updateOrder(pedido);
 
-        // Enviar evento
         String fecha = DateTimeFormatter.ISO_INSTANT.withZone(ZoneOffset.UTC).format(Instant.now());
         OrderEventDto eventDto = new OrderEventDto(
                 pedido.getId(),
@@ -53,6 +56,17 @@ public class OrderAssignUseCase implements OrderAssignUseCasePort {
                 null
         );
         eventPublisherPort.publishOrderEvent(eventDto);
+
+        OrderReadyNotificationEventDto orderReadyNotificationEventDto = new OrderReadyNotificationEventDto(
+                pedido.getId(),
+                pedido.getClienteId(),
+                pedido.getRestauranteId(),
+                fecha,
+                "LISTO",
+                pin,
+                pedido.getPhone()
+        );
+        orderReadyNotificationPublisherPort.publishOrderReadyNotification(orderReadyNotificationEventDto);
+
     }
 }
-

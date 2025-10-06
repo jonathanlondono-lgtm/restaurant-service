@@ -34,7 +34,7 @@ class OrderCommandAdapterTest {
     @Test
     void saveOrder_success() {
         Pedido pedido = new Pedido(null, 1L, 2L, "PENDIENTE", null, LocalDateTime.now(), LocalDateTime.now(), null,
-                List.of(new PedidoDetalle(null, null, 10L, 2)));
+                List.of(new PedidoDetalle(null, null, 10L, 2)),null);
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setId(100L);
         orderEntity.setClienteId(1L);

@@ -66,6 +66,8 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/orders").hasAuthority("CLIENTE")
                         .requestMatchers("/api/orders/list").hasAuthority("EMPLEADO")
                         .requestMatchers("/api/orders/assign").hasAuthority("EMPLEADO")
+                        .requestMatchers("/api/orders/ready").hasAuthority("EMPLEADO")
+
 
 
                         .anyRequest().authenticated()

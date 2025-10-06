@@ -12,6 +12,7 @@ public class JwtTokenServiceAdapter implements TokenServicePort {
 
     private final UserIdExtractor userIdExtractor;
     private final RestaurantIdExtractor restaurantIdExtractor;
+    private final PhoneExtractor phoneExtractor = new PhoneExtractor();
 
     @Autowired
     public JwtTokenServiceAdapter(UserIdExtractor userIdExtractor, RestaurantIdExtractor restaurantIdExtractor) {
@@ -23,6 +24,14 @@ public class JwtTokenServiceAdapter implements TokenServicePort {
     public Long extractUserId(String bearerToken) {
         return userIdExtractor.extract(bearerToken, jwtSecret);
     }
+    @Override
+    public String extraxtPhoneNumber(String bearerToken) {
+        String phone = phoneExtractor.extract(bearerToken, jwtSecret);
+        if (phone == null) {
+            throw new IllegalArgumentException("Phone ID extracted from token is null");
+        }
+        return phone;
+    }
 
     @Override
     public Long extractRestaurantId(String bearerToken) {
@@ -32,4 +41,6 @@ public class JwtTokenServiceAdapter implements TokenServicePort {
         }
         return restaurantId;
     }
+
+
 }

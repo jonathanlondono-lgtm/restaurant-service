@@ -20,6 +20,7 @@ public class OrderEntityMapper {
         entity.setFechaCreacion(pedido.getFechaCreacion());
         entity.setFechaActualizacion(pedido.getFechaActualizacion());
         entity.setPinSeguridad(pedido.getPinSeguridad());
+        entity.setPhone(pedido.getPhone());
 
         if (pedido.getRestauranteId() != null) {
             RestaurantEntity restaurante = new RestaurantEntity();
@@ -42,6 +43,7 @@ public class OrderEntityMapper {
         pedido.setFechaCreacion(entity.getFechaCreacion());
         pedido.setFechaActualizacion(entity.getFechaActualizacion());
         pedido.setPinSeguridad(entity.getPinSeguridad());
+        pedido.setPhone(entity.getPhone());
 
         if (entity.getRestaurante() != null) {
             pedido.setRestauranteId(entity.getRestaurante().getId());
