@@ -30,8 +30,8 @@ spring:
   rabbitmq:
     host: localhost
     port: 5672
-    username: jonathan
-    password: 12345
+    username: admin
+    password: admin
 
 jwt:
   secret: "LONque1234567890LONque1234567890abcd"

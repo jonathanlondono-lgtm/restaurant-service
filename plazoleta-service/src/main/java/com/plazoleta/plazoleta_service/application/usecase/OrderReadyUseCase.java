@@ -11,9 +11,7 @@ import com.plazoleta.plazoleta_service.infraestructure.driven.event.adapter.dto.
 import com.plazoleta.plazoleta_service.infraestructure.driven.event.adapter.dto.OrderReadyNotificationEventDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
@@ -47,8 +45,7 @@ public class OrderReadyUseCase implements OrderReadyUseCasePort {
         orderCommandPort.updateOrder(pedido);
 
         String fecha = DateTimeFormatter.ISO_INSTANT
-                .withZone(ZoneOffset.UTC)
-                .format(pedido.getFechaActualizacion().atZone(ZoneId.systemDefault()).toInstant());
+                .format(pedido.getFechaActualizacion().atZone(ZoneOffset.UTC));
 
 
         OrderEventDto eventDto = new OrderEventDto(

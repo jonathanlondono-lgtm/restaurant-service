@@ -1,51 +1,53 @@
 package com.plazoleta.plazoleta_service.application.usecase;
 
-import com.plazoleta.plazoleta_service.application.dto.OrderAssignRequestDto;
-import com.plazoleta.plazoleta_service.application.port.in.OrderAssignUseCasePort;
-import com.plazoleta.plazoleta_service.application.port.out.OrderAssignQueryPort;
+import com.plazoleta.plazoleta_service.application.port.in.CancelOrderServicePort;
+import com.plazoleta.plazoleta_service.application.port.out.OrderQueryPort;
 import com.plazoleta.plazoleta_service.application.port.out.OrderCommandPort;
 import com.plazoleta.plazoleta_service.application.port.out.TokenServicePort;
 import com.plazoleta.plazoleta_service.application.port.out.EventPublisherPort;
-import com.plazoleta.plazoleta_service.domain.exception.OrderNotFoundOrNotInPreparationStateException;
+import com.plazoleta.plazoleta_service.domain.exception.NoPendingOrderToCancelException;
+import com.plazoleta.plazoleta_service.domain.exception.OrderCannotBeCancelledException;
 import com.plazoleta.plazoleta_service.domain.model.Pedido;
 import com.plazoleta.plazoleta_service.domain.util.ExceptionMessages;
 import com.plazoleta.plazoleta_service.infraestructure.driven.event.adapter.dto.OrderEventDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
-public class OrderAssignUseCase implements OrderAssignUseCasePort {
-    private final OrderAssignQueryPort orderAssignQueryPort;
-    private final OrderCommandPort orderCommandPort;
+public class OrderDelete implements CancelOrderServicePort {
     private final TokenServicePort tokenServicePort;
+    private final OrderQueryPort orderQueryPort;
+    private final OrderCommandPort orderCommandPort;
     private final EventPublisherPort eventPublisherPort;
 
     @Override
-    public void assignOrderToEmployee(OrderAssignRequestDto requestDto, String bearerToken) {
-        Long empleadoId = tokenServicePort.extractUserId(bearerToken);
-        Long restauranteId = tokenServicePort.extractRestaurantId(bearerToken);
-        Long orderId = requestDto.getOrderId();
+    public void cancelOrder(String bearerToken) {
+        Long clientId = tokenServicePort.extractUserId(bearerToken);
 
-        Pedido pedido = orderAssignQueryPort.findByIdAndRestauranteIdAndEstado(orderId, restauranteId, "PENDIENTE");
+        // Buscar si el cliente tiene alguna orden activa
+        Pedido pedido = orderQueryPort.findActiveOrderByClientId(clientId);
         if (pedido == null) {
-            throw new OrderNotFoundOrNotInPreparationStateException(ExceptionMessages.ORDER_NOT_FOUND_OR_NOT_IN_PREPARATION);
+            throw new NoPendingOrderToCancelException(ExceptionMessages.NO_PENDING_ORDER_TO_CANCEL);
         }
 
-        pedido.setEmpleadoAsignadoId(empleadoId);
-        pedido.setEstado("EN_PREPARACION");
+        // Validar que el pedido esté en estado PENDIENTE (solo estos se pueden cancelar)
+        if (!"PENDIENTE".equals(pedido.getEstado())) {
+            throw new OrderCannotBeCancelledException(ExceptionMessages.ORDER_CANNOT_BE_CANCELLED);
+        }
 
+        // Cambiar estado a CANCELADO
+        pedido.setEstado("CANCELADO");
         pedido.setFechaActualizacion(LocalDateTime.now());
-
         orderCommandPort.updateOrder(pedido);
 
-        String fecha = DateTimeFormatter.ISO_INSTANT
-                .format(pedido.getFechaActualizacion().atZone(ZoneOffset.UTC));
-
-
+        // Enviar evento de trazabilidad
+        String fecha = DateTimeFormatter.ISO_INSTANT.withZone(ZoneOffset.UTC).format(Instant.now());
         OrderEventDto eventDto = new OrderEventDto(
                 pedido.getId(),
                 pedido.getClienteId(),
@@ -53,10 +55,9 @@ public class OrderAssignUseCase implements OrderAssignUseCasePort {
                 pedido.getEstado(),
                 fecha,
                 "plazoleta-service",
-                empleadoId,
+                null,
                 null
         );
         eventPublisherPort.publishOrderEvent(eventDto);
     }
 }
-

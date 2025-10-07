@@ -23,4 +23,6 @@ public class ExceptionMessages {
     public static final String INVALID_ORDER_DETAIL_DISH_ID = "Dish ID in order detail is null for this order.";
     public static final String ORDER_NOT_FOUND_OR_NOT_IN_PREPARATION = "Order not found or not in PREPARATION state for this restaurant.";
     public static final String PIN_NOT_VALID = "The provided PIN is not valid.";
+    public static final String ORDER_CANNOT_BE_CANCELLED = "Lo sentimos, tu pedido ya está en preparación y no puede cancelarse";
+    public static final String NO_PENDING_ORDER_TO_CANCEL = "No tienes ningún pedido pendiente para cancelar.";
 }

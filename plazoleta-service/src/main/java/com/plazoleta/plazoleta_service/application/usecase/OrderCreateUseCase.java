@@ -62,7 +62,8 @@ public class OrderCreateUseCase implements OrderCreateUseCasePort {
 
         Pedido savedPedido = orderCommandPort.saveOrder(pedido);
 
-        String fechaEvento = DateTimeFormatter.ISO_INSTANT.format(savedPedido.getFechaCreacion().atZone(ZoneOffset.UTC));
+        String fechaEvento = DateTimeFormatter.ISO_INSTANT
+                .format(savedPedido.getFechaCreacion().atZone(ZoneOffset.UTC));
         OrderEventDto event = new OrderEventDto(
             savedPedido.getId(),
             clientId,
